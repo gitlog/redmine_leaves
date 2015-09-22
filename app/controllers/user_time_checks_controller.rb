@@ -400,6 +400,22 @@ class UserTimeChecksController < ApplicationController
     end
     
   end
-  
+  def who_is_checked_in
+    #By default show all for Today, else whatever was given in filter.
+     logged_in_users = UserTimeCheck.select("user_id, min(check_in_time) as check_in_time").includes(:user).group('user_id').where("check_in_time >=CURDATE()")
+     not_logged_in = UserTimeCheck.select("user_id, min(check_in_time) as check_in_time").includes(:user).group('user_id').where("date(check_in_time) < CURDATE()  and user_id not in (select user_id from user_time_checks where date(check_in_time) >= CURDATE()) ")
+     @list_of_logged_in = []
+     @list_of_not_logged_in = []
+
+     logged_in_users.each {|user|
+       d = User.select("firstname,lastname").where("id = #{user.user_id}")
+       @list_of_logged_in << "#{d[0].firstname} #{d[0].lastname}"
+     }
+     not_logged_in.each {|user|
+       d = User.select("firstname,lastname").where("id = #{user.user_id}")
+       @list_of_not_logged_in << "#{d[0].firstname} #{d[0].lastname}"
+     }
+
+  end
  
 end

@@ -1,0 +1,46 @@
+<br>
+<h2>Who has checked in at least once Today?</h2>
+ 
+ 
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "jquery-ui", plugin: 'redmine_leaves'  %>
+ <%= javascript_include_tag "application", plugin: 'redmine_leaves'  %>
+<% end %>
+ 
+
+
+
+
+<% if User.current.allowed_to_globally?(:view_time_reports,{}) -%>
+
+
+
+<div class="autoscroll " style=" width:20000">
+
+  <br>
+  <div id="main_grid" class="autoscroll" >
+  <h3>Checked in at least once today:</h3>
+  <ul> 
+  <% @list_of_logged_in.each do |logged_in| %>
+  <li><%= logged_in %></li>
+  <% end %>
+  </ul>
+  <h3>Not checked in yet today:</h3>
+  <ul> 
+  <% @list_of_not_logged_in.each do |not_logged_in| %>
+  <li><%= not_logged_in %></li>
+  <% end %>
+  </ul>
+  
+  
+    </div>
+
+
+</div>
+
+
+<%else%>
+
+  <p>You do not have permission to view reports</p>
+  <a href="/user_time_checks">Back</a>
+<%end%>

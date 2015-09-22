@@ -11,6 +11,8 @@ match '/create_time_entries' => 'user_time_checks#create_time_entries', via: :ge
 get "user_time_checks/check_in"
 get "user_time_checks/check_out"
 get "user_time_checks/checkout_timelog_success"
+get "user_time_checks/daily_time_report"
+get "user_time_checks/who_is_checked_in"
 get "user_time_checks/user_time_reporting"
 get "user_time_checks/user_time_reporting_weekly"
 get "user_time_checks/user_time_reporting_monthly"
