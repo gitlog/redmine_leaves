@@ -19,6 +19,12 @@
 
   <br>
   <div id="main_grid" class="autoscroll" >
+  <h3>Currently checked in:</h3>
+  <ul> 
+  <% @list_of_currently_checked_in_users.each do |logged_in| %>
+  <li><%= logged_in %></li>
+  <% end %>
+  </ul>
   <h3>Checked in at least once today:</h3>
   <ul> 
   <% @list_of_logged_in.each do |logged_in| %>
