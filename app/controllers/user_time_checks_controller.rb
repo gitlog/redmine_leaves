@@ -215,9 +215,14 @@ class UserTimeChecksController < ApplicationController
       avgs +=  "AVG(check_out_time) as avg_check_out_time, "
       avgs +=  "AVG(time_spent) as average_time "
     end
-    
+
+    if params["time_checks_grid"].nil?
+      where = "check_in_time >= CURDATE()"	
+    else
+      where = "check_out_time IS NOT NULL"
+    end 
     time_checks = UserTimeCheck.select("user_id, check_in_time, check_out_time, #{avgs}").
-    includes(:user).where("check_out_time IS NOT NULL")         
+    includes(:user).where(where)         
     
     @time_report_grid = initialize_grid(time_checks,
       :name => 'time_checks_grid',

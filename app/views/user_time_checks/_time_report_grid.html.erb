@@ -38,23 +38,34 @@
     :attribute => 'check_out_time', 
     detach_with_id: 'check_out_time_filter'
 
-
-
-
-
-  e.column name: 'Average Time Spent', html: {style: 'text-align: center'}   do |t|
-
-
-    unless t.average_time.nil?
-
-      output=(t.average_time.to_i/60).to_s
-
-      output+':'+(t.average_time.to_i%60).to_s
-
-
+  e.column name: 'Time Checked', html: {style: 'text-align: center'}   do |t|
+    #Log seconds since check in, if user has not checked out yet.
+    logger.debug("CHECKIN_TIME: #{t.check_in_time}")
+    if t.time_spent.nil?
+      seconds = Time.now.to_i - t.check_in_time.to_i
+      @time_spent_date = Time.new(Time.now.year) + seconds
+      @time_spent_date.strftime("%H:%M:%S") 
+    else
+      @time_checked_today = t.time_spent / 60.0 / 60.0
+      @time_checked_today.round(2)
     end
+  end
+  
+  e.column name: 'Time Logged', html: {style: 'text-align: center'}   do |t|
 
+  if params["time_checks_grid"].nil?
+    #@time_spent_today = TimeEntry.where(['user_id = ? and date(created_on) = date(CURDATE())', t.user_id]).sum(:hours)
+    @time_spent_today = TimeEntry.where(['user_id = ? and created_on >= CURDATE()', t.user_id]).sum(:hours)
+  else
+    @time_spent_today = TimeEntry.where(['user_id = ? and created_on between ? and ?', t.user_id,t.check_in_time,t.check_out_time]).sum(:hours)
+  end
 
+  #@time_spent_today = TimeEntry.where(['user_id = ? and created_on between ? and ?', t.user_id,t.check_in_time,t.check_out_time]).sum(:hours)
+    #unless t.time_spent.nil?
+      #time_spent_date = Time.new(Time.now.year) +  @time_spent_today * 60.0 * 60.0
+      @time_spent_today.round(2)
+      #time_spent_date.strftime("%H:%M:%S") 
+    #end
   end
 
 
