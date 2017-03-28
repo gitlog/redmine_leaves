@@ -8,7 +8,7 @@ zh:
    #Main Menu 
    caption_top_menu_check_in: "签到"
    caption_top_menu_check_out: "签退"
-   caption_leave_report: "休假"
+   caption_leave_report: "休假管理"
    caption_user_time_check: "User Time Check"
     
    #user_leave_report/index
@@ -16,13 +16,13 @@ zh:
    title_leave_analytics: "休假情况分析"
    
    #user_leave_report/_options
-   link_add_leave: "添加休假申请" 
-   label_date_from: "始于"
-   label_date_to: "截止"
+   link_add_leave: "添加休假" 
+   label_date_from: "起始日期"
+   label_date_to: "截止日期"
    label_sortby: "排序"
    label_user: "用户"
    label_leave_types: "休假类型"
-   label_group: "组"
+   label_group: "用户组"
    label_button_apply: "应用"
    options_group_by_title: "休假类型"
    option_group_by_user: "用户"
@@ -40,12 +40,12 @@ zh:
    link_delete: "删除"
    
    #user_leaves/new
-   label_add_leave: "添加休假申请"
-   label_user_group: "用户/组"
-   label_optional: "（选填项）"
+   label_add_leave: "添加休假"
+   label_user_group: "用户/用户组
+   label_optional: "（选填项）" 
    label_fractional_leave: "零星休假"
-   label_fractional_leave_optional: "(选填项： only required for half leaves or earned leaves [use negative value for earned])"
-   label_button_add: "添加"
+   label_fractional_leave_optional: "(选填项： 仅用于不足一个工作日或加班[用负数标识加班工时])"
+   label_button_add: "提交"
    
    #user_leaves/destroy
    label_deleted: "休假记录已删除。"
@@ -67,7 +67,7 @@ zh:
    
    #settings/
    label_leave_types: "休假类型"
-   label_multiple_leaves_instructions: " For multiple Leave Types, enter values separated by comma (,)"
+   label_multiple_leaves_instructions: " 如有多个休假类型，请使用半角逗号隔开(,)"
    label_default_type: "默认休假类型"
    label_eligible_for_leave_groups: "Eligible For Leave Group(s)"
    label_mark_leaves: "Mark Leaves"
@@ -137,8 +137,8 @@ zh:
    notice_leave_add: "%{leave_type} leave marked for %{user_name} for %{leave_date}"
    error_leave_add: "%{leave_type} leave for %{user_name} for %{leave_date} could not be added. Reason: %{reason}"
 
-   error_no_user_group_selected: "未选择用户/组！请重新选择。"
-   error_invalid_user_group_selected: "选择的用户/组无效！请重新选择。"
+   error_no_user_group_selected: "未选择用户/用户组！请重新选择。"
+   error_invalid_user_group_selected: "选择的用户/用户组无效！请重新选择。"
    notice_leaves_updated: "休假记录已更新！"
    error_leaves_not_updated: "休假记录未更新！"
    
@@ -182,4 +182,4 @@ zh:
    label_Timereport: "用户工时报告"
    label_filters: "过滤器"
    label_trackers: "跟踪"
-   label_tracker_instructions: "输入用于显示的跟踪类型，用半角逗号分隔（,）"
+   label_tracker_instructions: "输入用于显示的跟踪类型，用半角逗号分隔(,)"
