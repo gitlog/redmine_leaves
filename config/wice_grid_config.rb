@@ -145,4 +145,8 @@ if defined?(Wice::Defaults)
   #  $( ".hasDatepicker" ).datepicker( "option", "yearRange", "2000:2042" );
   Wice::Defaults::DATEPICKER_YEAR_RANGE = (from = 1990).to_s + ':' + (from + 35).to_s
 
+  Wice::Defaults::PAGE_METHOD_NAME = :page
+
+  Wice::Defaults::ALLOW_SHOWING_ALL_RECORDS = false
+
 end
