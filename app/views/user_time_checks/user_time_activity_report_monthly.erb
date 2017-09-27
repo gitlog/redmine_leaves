@@ -45,7 +45,7 @@
             <%   @months_and_years.each do |user| %>
               <tr  align="center" >
                 <td>
-                  <%= user.user_id%>
+                  <%= User.find(user.user_id).name || ""  %>
                 </td> 
                 <td>
                   <% a = @missed_dates[user.user_id.to_s+user.month.to_s+user.year.to_s].first %>
@@ -55,8 +55,8 @@
                     0
                   <% end %>
                 </td> 
-                <td>
-                  <%= user.month%>
+                <td> 
+                  <%= I18n.l(Time.new(0,user.month.to_i), format: "%B") %>
                 </td> 
                 <td>
                   <%= user.year%>
