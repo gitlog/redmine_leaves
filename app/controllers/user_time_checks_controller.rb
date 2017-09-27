@@ -10,13 +10,14 @@ class UserTimeChecksController < ApplicationController
   
     time_checks= UserTimeCheck.
       select("#{UserTimeCheck.table_name}.*,sum(#{TimeEntry.table_name}.hours ) as logged_hours").
-      joins("LEFT JOIN #{TimeEntry.table_name} on DATE(check_in_time) <= spent_on AND DATE(check_out_time) >= spent_on").
-      group("#{UserTimeCheck.table_name}.id")
+      joins("LEFT JOIN #{TimeEntry.table_name} on DATE(check_in_time) <= spent_on AND DATE(check_out_time) >= spent_on")
+      
     @time_check_grid = initialize_grid(time_checks,
       :name => 'time_checks_grid',
       conditions: ["check_in_time >  ?", Time.now - 6.months],
       :enable_export_to_csv => true,
       :csv_field_separator => ';',
+      :group  =>  "#{UserTimeCheck.table_name}.id",
       :csv_file_name => 'UserTimeChecks')#,
      
     export_grid_if_requested('time_checks_grid' => 'time_check_grid')
@@ -195,71 +196,81 @@ and month(#{TimeEntry.table_name}.spent_on)=?
 
 
   end
- 
-
- 
 
   def user_time_reporting
+
+    if ActiveRecord::Base.connection.adapter_name.downcase == "postgresql"
+      avgs =   "AVG(extract(epoch from check_in_time)) * interval '1 second' as avg_check_in_time, "
+      avgs +=  "AVG(extract(epoch from check_out_time)) * interval '1 second' as avg_check_out_time, "
+      avgs +=  "AVG(time_spent) as average_time "
+    else
+      avgs =   "AVG(check_in_time) as avg_check_in_time, "
+      avgs +=  "AVG(check_out_time) as avg_check_out_time, "
+      avgs +=  "AVG(time_spent) as average_time "
+    end
     
-    time_checks = UserTimeCheck.select("user_id, check_in_time,check_out_time, 
-                                      avg(extract(epoch from check_in_time)) * interval '1 second' as avg_check_in_time,
-                                      avg(extract(epoch from check_out_time)) * interval '1 second' as avg_check_out_time, 
-                                      AVG(time_spent) as average_time")
-                  .includes(:user)
-                  .group('user_id, check_in_time, check_out_time') 
-                  .where("check_out_time IS NOT NULL")#
+    time_checks = UserTimeCheck.select("user_id, check_in_time, check_out_time, #{avgs}").
+    includes(:user).where("check_out_time IS NOT NULL")         
     
     @time_report_grid = initialize_grid(time_checks,
       :name => 'time_checks_grid',
       conditions: ["check_in_time >  ?", Time.now - 6.months],
       :enable_export_to_csv => true,
       :csv_field_separator => ';',
+      :group  => 'user_id, check_in_time, check_out_time',
       :csv_file_name => 'UserTimeCustom')#,
      
     export_grid_if_requested('time_checks_grid' => 'time_report_grid')
       
-    
   end
   
-
-  
-  
   def user_time_reporting_weekly
+
+    if ActiveRecord::Base.connection.adapter_name.downcase == "postgresql"
+      avgs =    "AVG(extract(epoch from check_in_time)) * interval '1 second' as avg_check_in_time, "
+      avgs +=   "AVG(extract(epoch from check_out_time)) * interval '1 second' as avg_check_out_time, "
+      avgs +=   "SUM(time_spent) as time_spent, "
+      avgs +=   "AVG(time_spent) as average_time "
+      week_year = "extract(week from check_out_time) as week, extract(year from check_in_time) as year, "
+    else
+      avgs =    "AVG(check_in_time) as avg_check_in_time, "
+      avgs +=   "AVG(check_out_time) as avg_check_out_time, "
+      avgs +=   "SUM(time_spent) as time_spent, "
+      avgs +=   "AVG(time_spent) as average_time "
+      week_year = "week(check_out_time) as week, year(check_in_time) as year, "
+    end
   
-    time_checks = UserTimeCheck.select("check_in_time as weekdays,week(check_in_time) as week,year(check_in_time) as year,check_in_time,
-check_out_time ,user_id,
- avg(extract(epoch from check_in_time)) * interval '1 second' as avg_check_in_time,
-avg(extract(epoch from check_out_time)) * interval '1 second' as avg_check_out_time, 
- sum(time_spent) as time_spent,AVG(time_spent) as average_time").
+    time_checks = UserTimeCheck.select("check_in_time as weekdays, #{week_year} check_in_time, check_out_time, user_id, #{avgs}").
       includes(:user).
-      group('user_id, check_in_time, check_out_time') .        
-      order('check_in_time,check_out_time,user_id')#.includes(:user)
+      order('check_in_time, check_out_time, user_id')
       
     @time_report_grid_weekly = initialize_grid(time_checks,
       :name => 'time_checks_grid',
       conditions: ["check_in_time >  ?", Time.now - 6.months],
       :enable_export_to_csv => true,
       :csv_field_separator => ';',
+      :group  => 'user_id, check_in_time, check_out_time',    
       :csv_file_name => 'UserTimeWeekly')#,
      
     export_grid_if_requested('time_checks_grid' => 'time_report_grid_weekly')
-   
-   
-        
    
   end
   
    
    
   def user_time_reporting_monthly
+
+    if ActiveRecord::Base.connection.adapter_name.downcase == "postgresql"
+      avgs =   "AVG(extract(epoch from check_in_time)) * interval '1 second' as avg_check_in_time, "
+      avgs +=  "AVG(extract(epoch from check_out_time)) * interval '1 second' as avg_check_out_time "
+    else
+      avgs =   "AVG(check_in_time) as avg_check_in_time, "
+      avgs +=  "AVG(check_out_time) as avg_check_out_time "
+    end
  
 
     time_checks = UserTimeCheck.includes(:user)
-    .select("check_in_time, check_out_time, user_id,
- avg(extract(epoch from check_in_time)) * interval '1 second' as avg_check_in_time,
- avg(extract(epoch from check_out_time)) * interval '1 second' as avg_check_out_time, 
-sum(time_spent) as time_spent,AVG(time_spent) as average_time")
-    .group('user_id, check_in_time, check_out_time') 
+    .select("check_in_time, check_out_time, user_id, #{avgs}, SUM(time_spent) as time_spent,AVG(time_spent) as average_time")
     .order('check_in_time,check_out_time,user_id')
     .where("check_out_time IS NOT NULL")  
     @time_report_grid_monthly = initialize_grid(time_checks,
@@ -267,6 +278,7 @@ sum(time_spent) as time_spent,AVG(time_spent) as average_time")
       :enable_export_to_csv => true,
       # conditions: ["check_in_time >  ?", Time.now - 12.months],
       :csv_field_separator => ';',
+      :group  =>  'user_id, check_in_time, check_out_time', 
       :csv_file_name => 'UserTimeMonthly')#,
              
     export_grid_if_requested('time_checks_grid' => 'time_report_grid_monthly')
