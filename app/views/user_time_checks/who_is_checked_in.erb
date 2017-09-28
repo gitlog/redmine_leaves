@@ -1,5 +1,5 @@
 <br>
-<h2>Who has checked in at least once Today?</h2>
+<h2><%= l(:title_who_is_checked_in) %></h2>
  
  
 <% content_for :header_tags do %>
@@ -15,19 +15,19 @@
 
   <br>
   <div id="main_grid" class="autoscroll" >
-  <h3>Currently checked in:</h3>
+  <h3><%= l(:label_currently_checked_in) %>:</h3>
   <ul> 
   <% @list_of_currently_checked_in_users.each do |logged_in| %>
   <li><%= logged_in %></li>
   <% end %>
   </ul>
-  <h3>Checked in at least once today:</h3>
+  <h3><%= l(:label_checked_in_at_least_once_today) %>:</h3>
   <ul> 
   <% @list_of_logged_in.each do |logged_in| %>
   <li><%= logged_in %></li>
   <% end %>
   </ul>
-  <h3>Not checked in yet today:</h3>
+  <h3><%= l(:label_not_checked_in_yet_today) %>:</h3>
   <ul> 
   <% @list_of_not_logged_in.each do |not_logged_in| %>
   <li><%= not_logged_in %></li>

@@ -182,9 +182,9 @@ en:
    label_filters: "Filters"
    label_trackers: "Trackers"
    label_tracker_instructions: "Enter trackers to display,separated by comma(,)"
-
+   
    #user_timechecks/who_is_checked_in
-   title_who_is_checked_in:                  "Who has checked in at least once Today?"
-   label_currently_checked_in:               "Currently checked in"
-   label_checked_in_at_least_once_today:     "Checked in at least once today"
-   label_not_checked_in_yet_today:           "Not checked in yet today"
+   title_who_is_checked_in:                  "Кто отмечался сегодня?"
+   label_currently_checked_in:               "Сейчас отмечены"
+   label_checked_in_at_least_once_today:     "Отмечались сегодня"
+   label_not_checked_in_yet_today:           "Не отмечались сегодня"
