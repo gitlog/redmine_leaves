@@ -13,12 +13,16 @@
 
   e.column name: l(:field_check_in_time), html: {style: 'text-align: center' }, 
     :attribute => 'check_in_time'  , 
-    detach_with_id: 'check_in_time_filter'
+    detach_with_id: 'check_in_time_filter' do |t|
+      format_time(t.check_in_time)
+    end
 
 
   e.column name: l(:field_check_out_time), html: {style: 'text-align: center'}, 
     :attribute => 'check_out_time',  
-  detach_with_id: 'check_out_time_filter'
+    detach_with_id: 'check_out_time_filter' do |t|
+      format_time(t.check_out_time)
+    end
  
   
   e.column name: l(:field_comments), html: {style: 'text-align: center'}, 
@@ -29,7 +33,7 @@
     :attribute => 'time_spent',filter_type: :range,
     detach_with_id: 'time_spent_filter'  do |t|
     unless t.check_out_time.nil?
-         Time.at(t.check_out_time - t.check_in_time).utc.strftime("%H:%M")
+         Time.at(t.check_out_time - t.check_in_time).in_time_zone(User.current.time_zone).strftime("%H:%M")
 
 
     end

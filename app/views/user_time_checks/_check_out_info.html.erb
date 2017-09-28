@@ -1,7 +1,7 @@
 <table>
   <tr align="left" class="<%= cycle("odd")%>" >
     <th><strong><%= l(:label_check_out_time)%>: </strong></th>
-    <td><%= @user_time_check.check_out_time %></td>
+    <td><%= format_time(@user_time_check.check_out_time) %></td>
   </tr>
   <tr align="left" class="<%= cycle("even")%>">
     <th><strong><%= l(:label_current_user_id) %> </strong></th>
@@ -15,7 +15,7 @@
     <th><strong><%= l(:label_time_spent)%> </strong> </th>
     <td>
       <% checked_time = @user_time_check.check_out_time - @user_time_check.check_in_time %>
-      <%= Time.at(checked_time).utc.strftime("%H:%M:%S")%>
+      <%= Time.at(checked_time).in_time_zone(User.current.time_zone).strftime("%H:%M:%S")%>
     </td>
   </tr>
 </table> 
