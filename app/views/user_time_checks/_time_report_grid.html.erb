@@ -16,7 +16,7 @@
 
   e.column name: 'Average Clock-in', html: {style: 'text-align: center'} do |t|
     unless t.avg_check_in_time.nil?
-      time=Time.at(t.avg_check_in_time)
+      time=Time.at(t.avg_check_in_time.to_i)
       t= time.in_time_zone
       t.to_formatted_s(:time) 
     end
@@ -24,7 +24,7 @@
 
   e.column name: 'Average Clock-out', html: {style: 'text-align: center'} do |t|
     unless t.avg_check_out_time.nil?
-      time=Time.at(t.avg_check_out_time)
+      time=Time.at(t.avg_check_out_time.to_i)
       t= time.in_time_zone
       t.to_formatted_s(:time) 
     end
@@ -32,11 +32,14 @@
 
   e.column name: l(:field_check_in_time), html: {style: 'text-align: center' }, 
     :attribute => 'check_in_time'  , 
-    detach_with_id: 'check_in_time_filter' 
-
+    detach_with_id: 'check_in_time_filter' do |t|
+      format_time(t.check_in_time)
+    end
   e.column name: l(:field_check_out_time), html: {style: 'text-align: center'}, 
     :attribute => 'check_out_time', 
-    detach_with_id: 'check_out_time_filter'
+    detach_with_id: 'check_out_time_filter' do |t|
+      format_time(t.check_out_time)
+    end
 
   e.column name: 'Time Checked', html: {style: 'text-align: center'}   do |t|
     #Log seconds since check in, if user has not checked out yet.

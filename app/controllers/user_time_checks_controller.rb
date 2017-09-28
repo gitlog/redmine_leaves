@@ -221,7 +221,7 @@ class UserTimeChecksController < ApplicationController
     else
       where = "check_out_time IS NOT NULL"
     end 
-    time_checks = UserTimeCheck.select("user_id, check_in_time, check_out_time, #{avgs}").
+    time_checks = UserTimeCheck.select("user_id, check_in_time, check_out_time, time_spent, #{avgs}").
     includes(:user).where(where)         
     
     @time_report_grid = initialize_grid(time_checks,
@@ -229,7 +229,7 @@ class UserTimeChecksController < ApplicationController
       conditions: ["check_in_time >  ?", Time.now - 6.months],
       :enable_export_to_csv => true,
       :csv_field_separator => ';',
-      :group  => 'user_id, check_in_time, check_out_time',
+      :group  => 'user_id, check_in_time, check_out_time, time_spent',
       :csv_file_name => 'UserTimeCustom')#,
      
     export_grid_if_requested('time_checks_grid' => 'time_report_grid')
@@ -347,11 +347,14 @@ class UserTimeChecksController < ApplicationController
 
     else
       @user_time_check = checkout_timechecks.first
-      @user_time_check.update_attributes(check_out_time: DateTime.now)
+
+      @check_out_time = DateTime.now
+
+      @elapsed_seconds = ((@check_out_time -  DateTime.parse(@user_time_check.check_in_time.to_s)) * 24 * 60 * 60).to_i
       
+      @user_time_check.update_attributes(:check_out_time => @check_out_time, :time_spent => @elapsed_seconds)     
       
       @time_entries= TimeEntry.where(user_id: User.current.id , created_on: (@user_time_check.check_in_time)..@user_time_check.check_out_time, spent_on: [@user_time_check.check_in_time.to_date,@user_time_check.check_out_time.to_date])
-  
 
       logged_in_time= @time_entries.sum(:hours)
       checked_time = @user_time_check.check_out_time - @user_time_check.check_in_time

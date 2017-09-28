@@ -33,10 +33,9 @@
     :attribute => 'time_spent',filter_type: :range,
     detach_with_id: 'time_spent_filter'  do |t|
     unless t.check_out_time.nil?
-         Time.at(t.check_out_time - t.check_in_time).in_time_zone(User.current.time_zone).strftime("%H:%M")
-
-
+         Time.at(t.time_spent.to_i).utc.strftime("%H:%M")
     end
+    
     #unless t.time_spent.nil?
           #output=(t.time_spent.to_i/60).to_s
 
