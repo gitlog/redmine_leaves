@@ -1,0 +1,185 @@
+# Simplified Chinese strings go here for Rails i18n
+zh:
+  #pagination in redmine time checks
+   wice_grid:
+     previous_label: «
+     next_label: »
+
+   #Main Menu 
+   caption_top_menu_check_in: "签到"
+   caption_top_menu_check_out: "签退"
+   caption_leave_report: "休假管理"
+   caption_user_time_check: "User Time Check"
+    
+   #user_leave_report/index
+   title_leave_summary: " 休假情况概况"
+   title_leave_analytics: "休假情况分析"
+   
+   #user_leave_report/_options
+   link_add_leave: "添加休假" 
+   label_date_from: "起始日期"
+   label_date_to: "截止日期"
+   label_sortby: "排序"
+   label_user: "用户"
+   label_leave_types: "休假类型"
+   label_group: "用户组"
+   label_button_apply: "应用"
+   options_group_by_title: "休假类型"
+   option_group_by_user: "用户"
+   option_group_by_date: "日期"
+   
+   #user_leave_report/report
+   label_name: "用户姓名"
+   label_leave_type: "休假类型"
+   label_leave_date: "休假日期"
+   label_weight: "Weight"
+   label_comments: "备注"
+   label_action: "操作"
+   label_confirm: "确认？"
+   link_edit: "编辑"
+   link_delete: "删除"
+   
+   #user_leaves/new
+   label_add_leave: "添加休假"
+   label_user_group: "用户/用户组
+   label_optional: "（选填项）" 
+   label_fractional_leave: "零星休假"
+   label_fractional_leave_optional: "(选填项： 仅用于不足一个工作日或加班[用负数标识加班工时])"
+   label_button_add: "提交"
+   
+   #user_leaves/destroy
+   label_deleted: "休假记录已删除。"
+   #user_leaves/edit
+   label_update_leave: "更新休假记录"
+   label_button_update: "更新"
+   
+   #leave_mailer/notify_absentee.html/.txt
+   text_notify_your_leave_for: "您的休假申请："
+   text_notify_has_been_marked_as: " 已被标记为 "
+   text_notify_has_been_added_as: " 已添加为 "
+   
+   
+   #log_time_reminder_mailer/reminder_email.html/.txt
+   text_email_remainder_time: "工时日志记录 - 问题# "
+   text_email_assignee: "指派给："
+   text_email_issue_inform: "该信息提示您，你尚未登记工时日志 - 问题编号 # "
+   text_email_log_request: "请注意及时登记相关工时。"
+   
+   #settings/
+   label_leave_types: "休假类型"
+   label_multiple_leaves_instructions: " 如有多个休假类型，请使用半角逗号隔开(,)"
+   label_default_type: "默认休假类型"
+   label_eligible_for_leave_groups: "Eligible For Leave Group(s)"
+   label_mark_leaves: "Mark Leaves"
+   label_mark_own_leave: "Mark Own Leave"
+   label_daily_mail_reminder: "每日邮件提醒"
+   label_weekly_mail_reminder: "每周邮件提醒"
+   label_monthly_mail_reminder: "每月邮件提醒"
+   label_edit_attendance: "编辑出勤"
+   label_edit_own_attendance: "编辑自己的出勤"
+   
+    #user_timecheks/index.html
+   label_attendance_summary: "出勤情况统计"
+   label_import_csv: "导入 CSV"
+   label_button_import: "导入"
+   label_file_note: "注意：文件不包含表头，标签分割及列序列如示例 - [S.No.  DATE  Check-In  Check-Out  NAME  ...]"
+   error_no_records_found: "无出勤记录！"
+   label_check_in_time: "签到时间"
+   label_check_out_time: "签退时间"
+   label_spent_time: "耗时"
+   label_not_allowed: "不可用"
+  
+   #user_timecheks/_availible_open_issues
+   label_issue_no: "问题 # "
+   label_tracker: "跟踪"
+   label_status: "状态"
+   label_subject: "主题"
+   label_hours_to_log: "工时等级"
+   label_activity: "活动"
+   label_comments: "备注"
+   error_post_save: "无法保存该条记录："
+   
+   #user_timechecks/_check_out_info
+   label_time_spent: "耗时："
+   
+   #user_timechecks/_show_logged_time_entries
+   label_time_logged: "工时已登记。"
+   label_activity_to_log: "登记记录的活动"
+ 
+   
+   #user_timechecks/check_in
+   label_check_in: "签到"
+   label_current_user_id: "当前用户ID："
+   label_current_user_name: "当前用户姓名："
+   
+   #user_timechecks/check_out
+   label_total_checked_time_is: "您的总计工作时间： "
+   label_total_logged_time_is: "您的已登记工时总计："
+   label_hours_for_today: "日工时"
+   label_please_log_remaining: "请登记剩余工时！"
+   
+   
+   #user_timechecks/checkout_timelog_success
+   label_time_logged_success: "工时已登记。"
+   label_check_out: "签退"
+  
+   #user_timecheks/ edit <existing locales used>
+   
+   
+   #CONTROLLERS
+   #user_leave_reports_controller
+   error_no_params: "未选择参数！"
+   error_invalid_date: "日期格式非法！"
+   error_no_results: "未查找到记录！"
+   error_from_greater_than_to: "起始日期不能大于截止日期！"
+   
+   #user_leaves_controller
+   notice_leave_add: "%{leave_type} leave marked for %{user_name} for %{leave_date}"
+   error_leave_add: "%{leave_type} leave for %{user_name} for %{leave_date} could not be added. Reason: %{reason}"
+
+   error_no_user_group_selected: "未选择用户/用户组！请重新选择。"
+   error_invalid_user_group_selected: "选择的用户/用户组无效！请重新选择。"
+   notice_leaves_updated: "休假记录已更新！"
+   error_leaves_not_updated: "休假记录未更新！"
+   
+   #user_time_checks_controller
+   notice_time_check_updated: "用户工时检查已更新。"
+   notice_time_check_file_imported: "用户工时检查文件已导入。"
+
+   error_invalid_file_format: "文件格式非法！" 
+   error_checkout_first: "您尚未签退，请先签退！"
+   error_checkin_first: "您尚未签到，请先签到！"
+   error_less_time_logged: "您登记的当天工时少于当天的最小比例，请补登记工时。"
+  
+   #MODELS
+   #leave_mailer
+   subject_leave_marked_for: "%{fraction} Leave Marked for %{leave_date)"
+   subject_project_timesheet: "日工时报告 - %{project} - %{report_date}"
+   subject_group_timesheet: "日工时报告 - %{group} - %{report_date}"
+   
+   subject_missing_time_log: "Missing Time Log - %{user_name} - %{report_date}"
+   
+   body_time_log_hours_not_logged_html: "您在 %{report_date} 尚未登记工时。"
+   body_time_log_hours_missing_html: "您在 %{report_date} 已登记了 %{logged_hours} 小时。"
+   body_affirm_missing_time_log_html: "请确认您当天的工时登记已完成。注意： 三天后您将无法修改您的工时登记记录！！"
+   footer_missing_time_log: "感谢您的合作、理解与支持！"
+   #log_time_remainder_mailer
+   label_reminder_for_time_log: "工时日志提醒 - 问题#"
+   
+   #user_leave
+   error_fractional_value_greater_than_one: ": Fractional Leave value can't be grater than 1"
+   error_fractional_value_less_than_zero: ": Fractional Leave value can't be less than 0"
+   
+   #user_time_check
+   auto_generated_comment: "自动签退"
+   field_user_id: "用户ID"
+   field_user_name: "用户姓名"
+   field_check_out_time: "签退时间"
+   field_check_in_time: "签到时间"
+   field_time_spent: "耗时" 
+   
+   label_Timeentry_plural : "工时登记"
+   label_Timereport: "用户工时报告"
+   label_filters: "过滤器"
+   label_trackers: "跟踪"
+   label_tracker_instructions: "输入用于显示的跟踪类型，用半角逗号分隔(,)"
