@@ -217,7 +217,7 @@ class UserTimeChecksController < ApplicationController
     end
 
     if params["time_checks_grid"].nil?
-      where = "check_in_time >= CURDATE()"	
+      where = "check_in_time >= date(now())"	
     else
       where = "check_out_time IS NOT NULL"
     end 
@@ -392,7 +392,6 @@ class UserTimeChecksController < ApplicationController
     @assigned_issues= Issue.where(assigned_to_id: User.current.id).joins(:status).
       where("#{IssueStatus.table_name}.is_closed" => false)
     @user_time_check = UserTimeCheck.where(["user_id = ? and check_out_time IS NOT NULL", User.current.id]).limit(1).order('id DESC').first
-    # @time_entries= TimeEntry.where(user_id: User.current.id , spent_on: (@user_time_check.check_in_time)..@user_time_check.check_out_time)
     @time_entries= TimeEntry.where(user_id: User.current.id , created_on: (@user_time_check.check_in_time)..@user_time_check.check_out_time+1.hour, spent_on: [@user_time_check.check_in_time.to_date,@user_time_check.check_out_time.to_date])
    
     logged_time= @time_entries.sum(:hours)
@@ -407,9 +406,9 @@ class UserTimeChecksController < ApplicationController
   end
   def who_is_checked_in
     #By default show all for Today, else whatever was given in filter.
-     currently_logged_in_users = UserTimeCheck.select("user_id, min(check_in_time) as check_in_time").includes(:user).group('user_id').where("check_in_time >=CURDATE() and check_out_time is NULL")
-     logged_in_users = UserTimeCheck.select("user_id, min(check_in_time) as check_in_time").includes(:user).group('user_id').where("check_in_time >=CURDATE()")
-     not_logged_in = UserTimeCheck.select("user_id, min(check_in_time) as check_in_time").includes(:user).group('user_id').where("date(check_in_time) < CURDATE()  and user_id not in (select user_id from user_time_checks where date(check_in_time) >= CURDATE()) ")
+     currently_logged_in_users = UserTimeCheck.select("user_id, min(check_in_time) as check_in_time").includes(:user).group('user_id').where("check_in_time >= date(now()) and check_out_time is NULL")
+     logged_in_users = UserTimeCheck.select("user_id, min(check_in_time) as check_in_time").includes(:user).group('user_id').where("check_in_time >= date(now())")
+     not_logged_in = UserTimeCheck.select("user_id, min(check_in_time) as check_in_time").includes(:user).group('user_id').where("date(check_in_time) < date(now())  and user_id not in (select user_id from user_time_checks where date(check_in_time) >= date(now()) ) ")
      @list_of_logged_in = []
      @list_of_not_logged_in = []
      @list_of_currently_checked_in_users = []
