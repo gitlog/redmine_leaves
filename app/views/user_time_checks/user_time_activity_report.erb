@@ -8,11 +8,10 @@
       <fieldset><legend><%= l(:label_filter_plural) %></legend>
         <table>
           <tr>     <th><%= "Date From:"%></th> <td><%= text_field_tag "date_from",
-                (params[:date_from]) || Date.today - 1.month %>
+                (params[:date_from]) || Date.today - 1.month, :type => "date" %>
               <%= calendar_for 'date_from' %>
             </td> </tr>
-          <tr>    <th><%=" Date To:" %></th><td> <%= text_field_tag "date_to",
-                (params[:date_to]) ||Date.today %> 
+          <tr>    <th><%=" Date To:" %></th><td> <%= text_field_tag "date_to", (params[:date_to]) ||Date.today, :type => "date" %> 
               <%= calendar_for 'date_to' %>
             </td> </tr><tr><td>  <%= submit_tag 'Apply' %></td> </tr>
         </table>
