@@ -188,3 +188,8 @@ en:
    label_currently_checked_in:               "Currently checked in"
    label_checked_in_at_least_once_today:     "Checked in at least once today"
    label_not_checked_in_yet_today:           "Not checked in yet today"
+   
+   #user_time_checks/user_time_reporting
+   title_custom_user_time_report: "Custom User Time Report"
+   label_average_clock_in: "Average Clock-in"
+   label_average_clock_out: "Average Clock-out"

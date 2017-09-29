@@ -65,9 +65,9 @@ en:
    text_email_log_request: "Kindly log time for this issue."
    
    #settings/
-   label_leave_types: "Leave Type(s)"
-   label_multiple_leaves_instructions: " For multiple Leave Types, enter values separated by comma (,)"
-   label_default_type: "Default Type"
+   label_leave_types: "Типы отпуска"
+   label_multiple_leaves_instructions: "В списке занчения резделяются запятой (,)"
+   label_default_type: "Тип по умолчанию"
    label_eligible_for_leave_groups: "Eligible For Leave Group(s)"
    label_mark_leaves: "Mark Leaves"
    label_mark_own_leave: "Mark Own Leave"
@@ -78,11 +78,11 @@ en:
    label_edit_own_attendance: "Edit Own Attendance"
    
     #user_timecheks/index.html
-   label_attendance_summary: "Attendance Summary"
-   label_import_csv: "Import CSV"
-   label_button_import: "Import"
+   label_attendance_summary: "Статистика посещаемости"
+   label_import_csv: "Импорт из CSV"
+   label_button_import: "Импорт"
    label_file_note: "NOTE: File should be headerless, tab separated and column sequence should be [S.No.  DATE  Check-In  Check-Out  NAME  ...]"
-   error_no_records_found: "No Records Found!"
+   error_no_records_found: "Не найдено записей!"
    label_check_in_time: "Check-in Time"
    label_check_out_time: "Check-out Time"
    label_spent_time: "Spent Time"
@@ -145,10 +145,10 @@ en:
    notice_time_check_updated: "User Time Check Updated"
    notice_time_check_file_imported: "User Time Checks Imported"
 
-   error_invalid_file_format: "Invalid File Format!"
-   error_checkout_first: "You did not check-out last time, please check-out first"
-   error_checkin_first: "You did not check-in last time, please check-in first"
-   error_less_time_logged: "Your logged in  time is less than required Percentage. Log your remaining time"
+   error_invalid_file_format: "Не верный формат файла!"
+   error_checkout_first: "Не удалось отметить приход. У вас не отмечен уход."
+   error_checkin_first: "Не удалось отметить уход. У вас не отмечен приход."
+   error_less_time_logged: "У вас отмечено времени меньше необходимого! Внесите в задачи трудозатраты"
   
    #MODELS
    #leave_mailer
@@ -171,15 +171,15 @@ en:
    
    #user_time_check
    auto_generated_comment: "Auto-Generated Check-Out"
-   field_user_id: "User name"
-   field_user_name: "User Name"
-   field_check_out_time: "Check Out Time"
-   field_check_in_time: "Check In Time"
+   field_user_id: "Id пользователя"
+   field_user_name: "Пользователь"
+   field_check_out_time: "Время ухода"
+   field_check_in_time: "Время прихода"
    field_time_spent: "Time Spent" 
    
    label_Timeentry_plural : "User Time Entries"
    label_Timereport: "User Time Report"
-   label_filters: "Filters"
+   label_filters: "Фильтры"
    label_trackers: "Trackers"
    label_tracker_instructions: "Enter trackers to display,separated by comma(,)"
    
@@ -188,3 +188,8 @@ en:
    label_currently_checked_in:               "Сейчас отмечены"
    label_checked_in_at_least_once_today:     "Отмечались сегодня"
    label_not_checked_in_yet_today:           "Не отмечались сегодня"
+
+   #user_time_checks/user_time_reporting
+   title_custom_user_time_report: "Пользовательский отчет посещаемости"
+   label_average_clock_in: "Среднее время прихода"
+   label_average_clock_out: "Среднее время ухода"

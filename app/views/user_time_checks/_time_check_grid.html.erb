@@ -2,7 +2,7 @@
 <%=define_grid @time_check_grid, hide_submit_button: true, hide_reset_button: true, hide_csv_button: false do |e|
 
 
-  e.column name: l(:field_user_id), html: {style: 'text-align: center'}, 
+  e.column name: l(:field_user_name), html: {style: 'text-align: center'}, 
     :attribute => 'user_id',
     detach_with_id: 'user_filter' ,
     custom_filter: User.active.collect{|u|[u.name, u.id]}  do |t|
