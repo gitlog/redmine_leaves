@@ -1,5 +1,5 @@
 namespace :redmine_leaves do
-	task auto_check_in: :environment do
+	task auto_user_time_checked: :environment do
 
 		if Setting.plugin_redmine_leaves['time_loggers_group'].to_i > 0
 
@@ -7,43 +7,46 @@ namespace :redmine_leaves do
 			
 			users.each do |user|
 
-				checkin_timechecks = UserTimeCheck.where(['user_id = ? AND check_out_time IS NULL', user.id])
+				if UserTimeCheck.where(['user_id = ? AND check_out_time >= ?', user.id, DateTime.now.strftime("%Y-%m-%d 00:00:00")]).nil?
 
-				if checkin_timechecks.empty?
+					checkin_timechecks = UserTimeCheck.where(['user_id = ? AND check_out_time IS NULL', user.id])
 
-					tmp = Redmine::Activity::Fetcher.new(user, :author => user)
+					if checkin_timechecks.empty?
 
-					unless tmp.blank?
+						tmp = Redmine::Activity::Fetcher.new(user, :author => user)
 
-						activity = tmp.events(Time.now.to_date, Time.now.to_date + 1)
+						unless tmp.blank?
 
-						unless activity.blank?
+							activity = tmp.events(Time.now.to_date, Time.now.to_date + 1)
 
-							activity.select! { |hash| hash[:created_on] >= Time.now.utc.to_date }
+							unless activity.blank?
 
-							event = activity.last
+								activity.select! { |hash| hash[:created_on] >= Time.now.utc.to_date }
 
-							if event.event_datetime.hour <= Time.now.hour - 2
-								@user_time_check = UserTimeCheck.create(user_id: user.id, check_in_time: event.event_datetime, :comments => "Auto check in")
+								event = activity.last
+
+								if event.event_datetime.hour <= Time.now.hour - 2
+									@user_time_check = UserTimeCheck.create(user_id: user.id, check_in_time: event.event_datetime, :comments => "Auto check in")
+								end
 							end
 						end
-					end
-				else
+					else
 
-					tmp = Redmine::Activity::Fetcher.new(user, :author => user)
+						tmp = Redmine::Activity::Fetcher.new(user, :author => user)
 
-					unless tmp.blank?
+						unless tmp.blank?
 
-						activity = tmp.events(Time.now.to_date, Time.now.to_date + 1)
+							activity = tmp.events(Time.now.to_date, Time.now.to_date + 1)
 
-						unless activity.blank?
+							unless activity.blank?
 
-							event = activity.first
+								event = activity.first
 
-							if event.event_datetime.hour <= Time.now.utc.hour - 6
-								@check_out_time = event.event_datetime.to_datetime
-								@elapsed_seconds = ((@check_out_time -  DateTime.parse(checkin_timechecks.first.check_in_time.to_s)) * 24 * 60 * 60).to_i
-								checkin_timechecks.first.update_attributes(:check_out_time => event.event_datetime, :time_spent => @elapsed_seconds, :comments => "Auto check out") 
+								if event.event_datetime.hour <= Time.now.utc.hour - 6
+									@check_out_time = event.event_datetime.to_datetime
+									@elapsed_seconds = ((@check_out_time -  DateTime.parse(checkin_timechecks.first.check_in_time.to_s)) * 24 * 60 * 60).to_i
+									checkin_timechecks.first.update_attributes(:check_out_time => event.event_datetime, :time_spent => @elapsed_seconds, :comments => "Auto check out") 
+								end
 							end
 						end
 					end
