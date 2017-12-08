@@ -1,0 +1,8 @@
+api.user_time_check do
+  api.id @user_time_check.id
+  api.user_id @user_time_check.user_id
+  api.current_user_name User.current.name
+  api.check_in_time format_time(@user_time_check.check_in_time)
+  api.success flash.now[:error]? 0 : 1
+  api.message flash.now[:error]? flash.now[:error] : ""
+end

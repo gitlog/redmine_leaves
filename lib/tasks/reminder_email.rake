@@ -35,6 +35,7 @@ namespace :redmine_leaves do
   end
   
   task report_time_logging_activity: :environment do
+    UserTimeCheck.extend(Redmine::Utils::DateCalculation)
     UserTimeCheck.report_activity
   end
 end

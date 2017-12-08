@@ -4,12 +4,12 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1><%= l(:text_email_remainder_time) %><%= @issue.id %></h1>
-    <h3><%= l(:text_email_assignee) %> <%= @user.name %></h3>
+    <h1><%= I18n.t(:text_email_remainder_time) %><%= @issue.id %></h1>
+    <h3><%= I18n.t(:text_email_assignee) %> <%= @user.name %></h3>
     <p>
-      <%= l(:text_email_issue_inform) %> <%= @issue.id %>
+      <%= I18n.t(:text_email_issue_inform) %> <%= @issue.id %>
       <br/>
-      <%= l(:text_email_log_request) %>
+      <%= I18n.t(:text_email_log_request) %>
     </p>
   </body>
 </html>

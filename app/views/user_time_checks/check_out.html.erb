@@ -1,8 +1,13 @@
 <% unless @user_time_check.check_out_time.nil? %>
   <h2> Check-Out </h2>
   <%= render 'check_out_info' %>
-  <!-- Enhancement : Ticket : 60 ------- time_differece in Seconds, logged time :in hours---------------------------------------------------------->
-  <br><br><br>
+
+  <br><br>
+  <%= form_tag({}, {:method => :post}) do -%>
+    <input type="hidden" name="check_out" value="1" />
+    <%= submit_tag 'Check out' %> <span> ( Принудительно )</span>
+  <% end -%>
+  <br><br>
 
   <%if (@assigned_issues!= nil) then%>
 
@@ -31,4 +36,11 @@
     <% end %>
 
   <% end %><!--  If Ends-->
+
+<%else%>
+
+  <% unless @assigned_issues.blank?%>
+  <%= render 'availible_open_issues' %>
+  <% end %>
+
 <%end%><!--  Unless condition End  -->   

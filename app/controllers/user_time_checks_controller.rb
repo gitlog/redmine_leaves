@@ -5,6 +5,8 @@ class UserTimeChecksController < ApplicationController
   include SortHelper
   #  before_filter  :authorize, :only => :index
   helper :sort
+
+  accept_api_auth :check_in, :check_out
   
   def index
   
@@ -207,8 +209,8 @@ class UserTimeChecksController < ApplicationController
   def user_time_reporting
 
     if ActiveRecord::Base.connection.adapter_name.downcase == "postgresql"
-      avgs =   "AVG(extract(epoch from check_in_time)) * interval '1 second' as avg_check_in_time, "
-      avgs +=  "AVG(extract(epoch from check_out_time)) * interval '1 second' as avg_check_out_time, "
+      avgs =   "(AVG(extract(epoch from check_in_time)) * interval '1 second')::time as avg_check_in_time, "
+      avgs +=  "(AVG(extract(epoch from check_out_time)) * interval '1 second')::time as avg_check_out_time, "
       avgs +=  "AVG(time_spent) as average_time "
     else
       avgs =   "AVG(check_in_time) as avg_check_in_time, "
@@ -336,11 +338,17 @@ class UserTimeChecksController < ApplicationController
       flash.now[:error] = l(:error_checkout_first)
       @user_time_check = checkin_timechecks.first
     end
+
+    respond_to do |format|
+      format.html
+      format.api
+    end
+
   end
   
   def check_out
     checkout_timechecks = UserTimeCheck.where(['user_id = ? AND check_out_time IS NULL', User.current.id])
-    
+    @forcibly = false
     if checkout_timechecks.empty?
       flash.now[:error] = l(:error_checkin_first)
       @user_time_check = UserTimeCheck.new(:user_id => User.current.id)
@@ -352,15 +360,23 @@ class UserTimeChecksController < ApplicationController
 
       @elapsed_seconds = ((@check_out_time -  DateTime.parse(@user_time_check.check_in_time.to_s)) * 24 * 60 * 60).to_i
       
-      @user_time_check.update_attributes(:check_out_time => @check_out_time, :time_spent => @elapsed_seconds)     
-      
-      @time_entries= TimeEntry.where(user_id: User.current.id , created_on: (@user_time_check.check_in_time)..@user_time_check.check_out_time, spent_on: [@user_time_check.check_in_time.to_date,@user_time_check.check_out_time.to_date])
+      unless params[:check_out].blank?
+        @user_time_check.update_attributes(:check_out_time => @check_out_time, :time_spent => @elapsed_seconds)     
+        @forcibly = true
+      else 
+        @user_time_check.check_out_time = @check_out_time
+      end
+
+      @time_entries= TimeEntry.where(user_id: User.current.id , created_on: (@user_time_check.check_in_time)..@check_out_time, spent_on: [@user_time_check.check_in_time.to_date,@check_out_time.to_date])
 
       logged_in_time= @time_entries.sum(:hours)
-      checked_time = @user_time_check.check_out_time - @user_time_check.check_in_time
+      checked_time = @check_out_time - DateTime.parse(@user_time_check.check_in_time.to_s)
          
       if logged_in_time<0.9*(checked_time/3600)
-        flash.now[:error] = l(:error_less_time_logged)
+        
+        unless @forcibly
+          flash.now[:error] = l(:error_less_time_logged)
+        end
         #@assigned_issues= Issue.where(assigned_to_id: User.current.id)
         @assigned_issues= Issue.where(assigned_to_id: User.current.id).joins(:status).
           where("#{IssueStatus.table_name}.is_closed" => false)

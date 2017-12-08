@@ -20,7 +20,7 @@
       t= time.in_time_zone
       t.to_formatted_s(:time) 
     end
-    end
+  end
 
   e.column name: l(:label_average_clock_out), html: {style: 'text-align: center'} do |t|
     unless t.avg_check_out_time.nil?
@@ -28,7 +28,7 @@
       t= time.in_time_zone
       t.to_formatted_s(:time) 
     end
-    end
+  end
 
   e.column name: l(:field_check_in_time), html: {style: 'text-align: center' }, 
     :attribute => 'check_in_time'  , 

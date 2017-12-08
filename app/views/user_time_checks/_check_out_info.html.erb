@@ -11,11 +11,13 @@
     <th><strong><%= l(:label_current_user_name)%> </strong> </th>
     <td><%= User.current.name %></td>
   </tr>
-  <tr align="left" class="<%= cycle("even")%>">
-    <th><strong><%= l(:label_time_spent)%> </strong> </th>
-    <td>
-      <% checked_time = @user_time_check.check_out_time - @user_time_check.check_in_time %>
-      <%= Time.at(checked_time).in_time_zone(User.current.time_zone).strftime("%H:%M:%S")%>
-    </td>
-  </tr>
+  <% unless @user_time_check.check_out_time.nil? %>
+    <tr align="left" class="<%= cycle("even")%>">
+      <th><strong><%= l(:label_time_spent)%> </strong> </th>
+      <td>
+        <% checked_time = @user_time_check.check_out_time - @user_time_check.check_in_time %>
+        <%= Time.at(checked_time).in_time_zone(User.current.time_zone).strftime("%H:%M:%S")%>
+      </td>
+    </tr>
+  <%end%>
 </table> 

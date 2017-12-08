@@ -5,11 +5,12 @@ resources :user_time_checks, :only => [:index, :update, :edit] do
   collection { post :import }
 end
 
-match '/create_time_entries' => 'user_time_checks#create_time_entries', via: :get
+match '/create_time_entries' => 'user_time_checks#create_time_entries', via: [:get, :post]
 
 #get "user_time_checks/home"
 get "user_time_checks/check_in"
 get "user_time_checks/check_out"
+post "user_time_checks/check_out"
 get "user_time_checks/checkout_timelog_success"
 get "user_time_checks/daily_time_report"
 get "user_time_checks/who_is_checked_in"
